@@ -119,3 +119,13 @@ img {
 #photo-preview {
   margin: 0.8rem 0;
 }
+
+#selection-tool {
+  display: none;
+  position: fixed;
+  /* top: 0;
+  left: 0;
+  width: 200px;
+  height: 200px; */
+  border: 2px dashed var(--green);
+}
