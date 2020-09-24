@@ -53,6 +53,8 @@ const mouseEvents = {
     startSelection = false;
     relativeEndX = event.layerX;
     relativeEndY = event.layerY;
+
+    cropButton.style.display = 'initial';
   },
 };
 
@@ -75,3 +77,9 @@ imageFile.onload = function () {
 
   imagePreview.src = canvas.toDataURL();
 };
+
+//cortar imagem
+
+const cropButton = document.getElementById('crop-image');
+
+cropButton.onclick = () => {};
