@@ -82,4 +82,43 @@ imageFile.onload = function () {
 
 const cropButton = document.getElementById('crop-image');
 
-cropButton.onclick = () => {};
+cropButton.onclick = () => {
+  const { width: fileWidth, height: fileHeight } = imageFile;
+  const { width: previewWidth, height: previewHeight } = imagePreview;
+
+  const widthFactor = fileWidth / previewWidth;
+  const heightFactor = fileHeight / previewHeight;
+
+  const [selectionWidth, selectionHeight] = [
+    +selectionTool.style.width.replace('px', ''),
+    +selectionTool.style.height.replace('px', ''),
+  ];
+
+  const [croppedWidth, croppedHeight] = [
+    +(selectionWidth * widthFactor),
+    +(selectionHeight * heightFactor),
+  ];
+
+  const [actualX, actualY] = [
+    +(relativeStartX * widthFactor),
+    +(relativeStartY * heightFactor),
+  ];
+
+  const croppedImg = ctx.getImageData(
+    actualX,
+    actualY,
+    croppedWidth,
+    croppedHeight
+  );
+
+  ctx.clearRect(0, 0, ctx.width, ctx.height);
+
+  imageFile.width = canvas.width = croppedWidth;
+  imageFile.height = canvas.height = croppedHeight;
+
+  ctx.putImageData(croppedImg, 0, 0);
+
+  selectionTool.style.display = 'none';
+
+  imagePreview.src = canvas.toDataURL();
+};
