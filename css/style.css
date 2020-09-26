@@ -111,8 +111,9 @@ img {
   height: auto;
 }
 
-/* Image Crop */
-#photo-file {
+#photo-file,
+#crop-image,
+#download {
   display: none;
 }
 
@@ -123,13 +124,5 @@ img {
 #selection-tool {
   display: none;
   position: fixed;
-  /* top: 0;
-  left: 0;
-  width: 200px;
-  height: 200px; */
   border: 2px dashed var(--green);
-}
-
-#crop-image {
-  display: none;
 }

@@ -1,6 +1,7 @@
 const PhotoFile = document.getElementById('photo-file');
 const imagePreview = document.getElementById('photo-preview');
-const imageFile = new Image();
+let imageFile;
+let imageName;
 
 //select e preview
 
@@ -12,9 +13,13 @@ window.addEventListener('DOMContentLoaded', () => {
   PhotoFile.addEventListener('change', () => {
     let file = PhotoFile.files.item(0);
     let reader = new FileReader();
+    imageName = file.name;
+
     reader.readAsDataURL(file);
     reader.onload = function (event) {
+      imageFile = new Image();
       imageFile.src = event.target.result;
+      imageFile.onload = onloadImage;
     };
   });
 });
@@ -67,7 +72,7 @@ Object.keys(mouseEvents).forEach((event) => {
 let canvas = document.createElement('canvas');
 let ctx = canvas.getContext('2d');
 
-imageFile.onload = function () {
+function onloadImage() {
   const { width, height } = imageFile;
   canvas.width = width;
   canvas.height = height;
@@ -76,7 +81,7 @@ imageFile.onload = function () {
   ctx.drawImage(imageFile, 0, 0);
 
   imagePreview.src = canvas.toDataURL();
-};
+}
 
 //cortar imagem
 
@@ -121,4 +126,14 @@ cropButton.onclick = () => {
   selectionTool.style.display = 'none';
 
   imagePreview.src = canvas.toDataURL();
+
+  downloadButton.style.display = 'initial';
+};
+
+const downloadButton = document.getElementById('download');
+downloadButton.onclick = function () {
+  const downloadLink = document.createElement('a');
+  downloadLink.download = imageName + '-cropped.png';
+  downloadLink.href = canvas.toDataURL();
+  downloadLink.click();
 };
